@@ -32,9 +32,6 @@ int main(int argc, char *argv[]) {
   cmd_parser.add<uint64_t>("yb", 'y', "coordinate2 of server", false, 132465777,
                            cmdline::range(0ul, 1ul << 27)); // 134217728
 
-  cmd_parser.add<uint64_t>("radius", 'r', "radius/thershold", false, 128,
-                           cmdline::range(1, 8192));
-
   // cmd_parser.add("ipv4", '4', "ipv4");
   cmd_parser.add("ipv6", '6', "ipv6", 0, 0);
 
@@ -50,23 +47,29 @@ int main(int argc, char *argv[]) {
 
   uint64_t xb = cmd_parser.get<uint64_t>("xb");
   uint64_t yb = cmd_parser.get<uint64_t>("yb");
-  uint64_t radius = cmd_parser.get<uint64_t>("radius");
 
   uint64_t z = xb * xb + yb * yb;
-  uint64_t sq_radius = radius * radius;
-
+  
   int sockfd_client = connect_to_client(ip, port, domain);
   if (sockfd_client < 0) // fail
     return -1;
 
   pplp_printf("Proximity test start...\n");
   pplp_printf("Server's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xb, yb);
-  pplp_printf("Radius:\t\t\t\t%" PRIu64 "\n", radius);
-
+  
   auto begin = chrono::high_resolution_clock::now();
 
+  // receive radius
+  stringstream radius_stream;
+  auto bytes = recv_by_stream(sockfd_client, radius_stream);
+  uint64_t radius;
+  radius_stream >> radius;
+  pplp_printf("Recv the radius %zu, bytes: %zu\n", 0, size_t(bytes));
+  
+  uint64_t sq_radius = radius * radius;
+
   // Recv the parms
-  auto bytes = recv(sockfd_client, buf, sizeof(buf), 0);
+  bytes = recv(sockfd_client, buf, sizeof(buf), 0);
   pplp_printf("Recv the parms(context), bytes: %zu \n", size_t(bytes));
 
   // set the context

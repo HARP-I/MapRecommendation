@@ -1,3 +1,4 @@
 info
 .vscode
 build
+test*.*

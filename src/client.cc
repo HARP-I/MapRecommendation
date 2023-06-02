@@ -173,6 +173,12 @@ int main(int argc, char* argv[]) {
 
 		auto begin = chrono::high_resolution_clock::now();
 
+		// send radius
+		stringstream radius_stream;
+		radius_stream << radius << "\0";
+		bytes_num = send_by_stream(sockfd_server, radius_stream);
+		pplp_printf("Send radius to the merchant, bytes: %zd \n", ssize_t(bytes_num));
+
 		// set the parms
 		EncryptionParameters parms(scheme_type::bfv);
 		size_t poly_modulus_degree = 1ull << poly_modulus_degree_bits;
@@ -264,7 +270,7 @@ int main(int argc, char* argv[]) {
 	cout << "类别：" << Variety[variety_selected] << "，半径：" << radius << "米" << endl;
 	cout << "以下商家在您附近：" << endl;
 	for (int i = 0;i < result_index.size();i++) {
-		cout << Merchants[variety_selected][i] << " ";
+		cout << Merchants[variety_selected][result_index[i]] << " ";
 		if (i % 3 == 0 && i != 0)
 			cout << endl;
 	}

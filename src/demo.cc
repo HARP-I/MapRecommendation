@@ -22,17 +22,17 @@ int main(int argc, char *argv[]) {
 
   cmdline::parser cmd_parser;
 
-  cmd_parser.add<uint64_t>("xa", 'x', "coordinate1 of client", false, 1234,
+  cmd_parser.add<uint64_t>("xa", 'x', "coordinate1 of client", false, 41556,
                            cmdline::range(0ul, 1ul << 27)); // 134217728
-  cmd_parser.add<uint64_t>("ya", 'y', "coordinate2 of client", false, 1212,
-                           cmdline::range(0ul, 1ul << 27)); // 134217728
-
-  cmd_parser.add<uint64_t>("xb", 'u', "coordinate1 of server", false, 1000,
-                           cmdline::range(0ul, 1ul << 27)); // 134217728
-  cmd_parser.add<uint64_t>("yb", 'v', "coordinate2 of server", false, 1000,
+  cmd_parser.add<uint64_t>("ya", 'y', "coordinate2 of client", false, 3407,
                            cmdline::range(0ul, 1ul << 27)); // 134217728
 
-  cmd_parser.add<uint64_t>("radius", 'r', "radius/thershold", false, 128,
+  cmd_parser.add<uint64_t>("xb", 'u', "coordinate1 of server", false, 41505,
+                           cmdline::range(0ul, 1ul << 27)); // 134217728
+  cmd_parser.add<uint64_t>("yb", 'v', "coordinate2 of server", false, 3429,
+                           cmdline::range(0ul, 1ul << 27)); // 134217728
+
+  cmd_parser.add<uint64_t>("radius", 'r', "radius/thershold", false, 200,
                            cmdline::range(1, 8192));
 
   cmd_parser.add<size_t>("plain_modulus_bits", 'b',
