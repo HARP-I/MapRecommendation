@@ -1,5 +1,5 @@
 #include "seal/seal.h"
-#include "pirdefines.h"
+#include "predefines.h"
 #include "pir_client.hpp"
 
 #include "bloomfilter.h"
@@ -131,8 +131,8 @@ int main(int argc, char* argv[]) {
 
 	vector<uint32_t> ip_vec;
 	vector<uint16_t> port_vec;
-	cout << "-------------------------------------------" << endl;
-	cout << "These mechants we have to communicate with(pir result): " << endl;
+	cout << "--------------------------------------------------------" << endl;
+	cout << "These merchants we have to communicate with(pir result): " << endl;
 	for (uint64_t i = 0;i < elems.size();i += 6) {
 		uint32_t ip = 0;
 		uint64_t ipPos = i;
@@ -149,13 +149,14 @@ int main(int argc, char* argv[]) {
 		port_vec.push_back(port);
 		cout << "IP: " << ip << ", Port: " << port << endl;
 	}
-	cout << "-------------------------------------------" << endl;
+	cout << "--------------------------------------------------------" << endl;
 	close(sockfd_platform);
 
+	vector<uint64_t> result_index;
 	cout << "Starting communication..." << endl;
 	// connect to each merchant
 	for (uint64_t i = 0; i < ip_vec.size();i++) {
-		cout << "-------------------------------------------" << endl;
+		cout << "--------------------------------------------------------" << endl;
 		// for ipv4 currently
 		in_addr tmp{ ip_vec[i] };
 		string merchant_ip = inet_ntoa(tmp);
@@ -254,12 +255,19 @@ int main(int argc, char* argv[]) {
 		auto elapsed = chrono::duration_cast<chrono::nanoseconds>(end - begin);
 
 		close(sockfd_server);
-
+		if (isNear)
+			result_index.push_back(i);
 		cout << "Result of proximity test: " << (isNear ? "near" : "far") << endl;
 		printf("Time measured: %.3f seconds\n", elapsed.count() * 1e-9);
-		cout << "-------------------------------------------" << endl;
-		sleep(1);
+		cout << "--------------------------------------------------------" << endl;
 	}
-
+	cout << "类别：" << Variety[variety_selected] << "，半径：" << radius << "米" << endl;
+	cout << "以下商家在您附近：" << endl;
+	for (int i = 0;i < result_index.size();i++) {
+		cout << Merchants[variety_selected][i] << " ";
+		if (i % 3 == 0 && i != 0)
+			cout << endl;
+	}
+	cout << endl;
 	return 0;
 }
