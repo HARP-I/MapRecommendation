@@ -75,8 +75,8 @@ void gen_pir_params(uint64_t ele_num, uint64_t ele_size, uint32_t d,
   std::uint64_t num_of_plaintexts;
 
   if (enable_batching) {
-    elements_per_plaintext = elements_per_ptxt(logt, N, ele_size); // 每一个多项式明文能存储多少个数据库元素
-    num_of_plaintexts = plaintexts_per_db(logt, N, ele_num, ele_size); // 需要多少个多项式明文存储数据库数据 
+    elements_per_plaintext = elements_per_ptxt(logt, N, ele_size); // how mant db elems can one plaintext poly store
+    num_of_plaintexts = plaintexts_per_db(logt, N, ele_num, ele_size); // the num of plaintext poly to store db data 
     // elem(each is ele_size) per FV plaintext
   } else {
     elements_per_plaintext = 1;
@@ -155,8 +155,8 @@ uint64_t coefficients_per_element(uint32_t logt, uint64_t ele_size) {
 
 // Number of database elements that can fit in a single FV plaintext
 uint64_t elements_per_ptxt(uint32_t logt, uint64_t N, uint64_t ele_size) {
-  uint64_t coeff_per_ele = coefficients_per_element(logt, ele_size); // 每个元素需要多少个系数表示(我们可以设置为1)
-  uint64_t ele_per_ptxt = N / coeff_per_ele; // 总系数个数除以每个元素需要的多少个系数表示
+  uint64_t coeff_per_ele = coefficients_per_element(logt, ele_size); // how many coeffs can one elem use(we can set 1)
+  uint64_t ele_per_ptxt = N / coeff_per_ele; // total coeff number / how many coeffs can one elem use
   assert(ele_per_ptxt > 0);
   return ele_per_ptxt;
 }
@@ -240,15 +240,15 @@ void vector_to_plaintext(const vector<uint64_t> &coeffs, Plaintext &plain) {
 }
 
 vector<uint64_t> compute_indices(uint64_t desiredIndex, vector<uint64_t> Nvec) {
-  // 数据库维度， Nvec是每个维度的大小，每一维度的大小应该是数据库每一维使用多少明文多项式表示
+  // dim of database, Nvec is the size of each dim, i.e. how many plaintext poly should one dim used
   uint32_t num = Nvec.size(); 
   uint64_t product = 1;
 
   for (uint32_t i = 0; i < num; i++) {
-    product *= Nvec[i]; // multi all Nvec elems 数据库中一共有多少个明文多项式(product)
+    product *= Nvec[i]; // multi all Nvec elems  how many plaintext polys in database (product)
   }
 
-  uint64_t j = desiredIndex; // 第0个明文多项式
+  uint64_t j = desiredIndex; // the 0th plaintext poly
   vector<uint64_t> result;
 
   for (uint32_t i = 0; i < num; i++) {

@@ -73,14 +73,14 @@ int PIRClient::generate_serialized_query(uint64_t desiredIndex,
 
 PirQuery PIRClient::generate_query(uint64_t desiredIndex) {
 
-  indices_ = compute_indices(desiredIndex, pir_params_.nvec); // 目标元素在哪一行哪一列
+  indices_ = compute_indices(desiredIndex, pir_params_.nvec); // target elem in which row and column
 
-  PirQuery result(pir_params_.d); // contains 2 ciphertext vectors 每一维度的密文
+  PirQuery result(pir_params_.d); // contains 2 ciphertext vectors ciphertext in each dim
   int N = enc_params_.poly_modulus_degree();
 
   Plaintext pt(enc_params_.poly_modulus_degree());
   for (uint32_t i = 0; i < indices_.size(); i++) {
-    uint32_t num_ptxts = ceil((pir_params_.nvec[i] + 0.0) / N); // 每一维度大小除以除以一个明文多项式能包含多少个系数
+    uint32_t num_ptxts = ceil((pir_params_.nvec[i] + 0.0) / N); // size of each dime / coeff num in one plain poly
     // initialize result.
     cout << "Client: index " << i + 1 << "/ " << indices_.size() << " = "
       << indices_[i] << endl;
@@ -112,8 +112,8 @@ PirQuery PIRClient::generate_query(uint64_t desiredIndex) {
     }
   }
 
-  return result; //  保存的是两个模逆
-  // 在当前实例中为两个pt[real_index]: 1028097的密文
+  return result; //  2 mod inverse
+  // current case -> pt[real_index]: 1028097's ciphertext
 }
 
 uint64_t PIRClient::get_fv_index(uint64_t element_index) {
@@ -160,7 +160,7 @@ std::vector<uint64_t> PIRClient::extract_coeffs(seal::Plaintext pt,
 std::vector<uint8_t> PIRClient::extract_bytes(seal::Plaintext pt,
   uint64_t offset) {
   uint32_t N = enc_params_.poly_modulus_degree();
-  uint32_t logt = floor(log2(enc_params_.plain_modulus().value())); // 每一个系数多少比特
+  uint32_t logt = floor(log2(enc_params_.plain_modulus().value())); // how many bits in one coeff
   uint32_t bytes_per_ptxt =
     pir_params_.elements_per_plaintext * pir_params_.ele_size;
 
