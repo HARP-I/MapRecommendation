@@ -20,7 +20,7 @@ static uint32_t IP[VARIETY_NUM][MAX_NUM_PER_VARIETY] = {
     10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
     20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
     30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-    40, 41, 42, 43, 44, 45, 46, 47, 48, 49 
+    40, 41, 42, 43, 44, 45, 46, 47, 48, 49
 };
 
 static uint16_t Port[VARIETY_NUM][MAX_NUM_PER_VARIETY] = {
@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     cout << "----------------------Parameters------------------------\n";
     print_seal_params(enc_params);
     print_pir_params(pir_params);
-    cout << "--------------------------------------------------------\n";
+    cout << "--------------------Parameters END----------------------\n";
 
     // use paras to initialize
     PIRClient client(enc_params, pir_params);
@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
             db.get()[ind] = (IP[i][j] & 0xff000000) >> 24;
             db_copy.get()[ind] = (IP[i][j] & 0xff000000) >> 24;
             db.get()[ind + 1] = (IP[i][j] & 0x00ff0000) >> 16;
-            db_copy.get()[ind + 1] = (IP[i][j] & 0x00ff0000) >> 16; 
+            db_copy.get()[ind + 1] = (IP[i][j] & 0x00ff0000) >> 16;
             db.get()[ind + 2] = (IP[i][j] & 0x0000ff00) >> 8;
             db_copy.get()[ind + 2] = (IP[i][j] & 0x0000ff00) >> 8;
             db.get()[ind + 3] = IP[i][j] & 0x000000ff;
@@ -82,24 +82,26 @@ int main(int argc, char** argv) {
             db.get()[ind + 4] = (Port[i][j] & 0xff00) >> 8;
             db_copy.get()[ind + 4] = (Port[i][j] & 0xff00) >> 8;
             db.get()[ind + 5] = Port[i][j] & 0x00ff;
-            db_copy.get()[ind + 5] = Port[i][j] & 0x00ff; 
+            db_copy.get()[ind + 5] = Port[i][j] & 0x00ff;
             ind += 6;
         }
     }
-    cout << "===================================================\n";
+    cout << "==============================" << endl;
     cout << "DB test..." << endl;
     for (uint64_t x = 0;x < number_of_items;x++) {
-        uint32_t tt = 0;
+        uint32_t t1 = 0; // ip test
         for (uint64_t y = 0;y < 4;y++) {
-            tt = (tt << 8) | db.get()[x * 6 + y];
+            t1 = (t1 << 8) | db.get()[x * 6 + y];
         }
-        cout << (int64_t)tt << endl;
-        int ttt = 0;
-        ttt = db.get()[x * 6 + 4];
-        ttt = (ttt << 8) | db.get()[x * 6 + 5];
-        cout << ttt << endl;
+        cout << t1 << ", ";
+        uint16_t t2 = 0; // port test
+        t2 = db.get()[x * 6 + 4];
+        t2 = (t2 << 8) | db.get()[x * 6 + 5];
+        cout << t2 << "\t";
+        if ((x + 1) % 5 == 0)
+            cout << endl;
     }
-    cout << "===================================================\n";
+    cout << "==============================" << endl;
 
     // client request
     server.set_database(move(db), number_of_items, size_per_item);
@@ -138,13 +140,14 @@ int main(int argc, char** argv) {
     }
     else {
         cout << "We get the true value:" << endl;
-        for (int i : elems) {
-            cout << i << " ";
+        for (int i = 0;i < elems.size();i++) {
+            cout << i << "  ";
+            if ((i + 1) % 5 == 0)
+                cout << endl;
         }
-        cout << endl;
     }
 
-    cout << "-------------------------------------------" << endl;
+    cout << "-----------------------PIR Result-----------------------\n";
     cout << "PIR Result we get: " << endl;
     for (uint64_t i = 0;i < elems.size();i += 6) {
         uint32_t ip = 0;
@@ -156,9 +159,9 @@ int main(int argc, char** argv) {
         uint16_t port = 0;
         port = (port << 8) | elems[ipPos];
         port = (port << 8) | elems[++ipPos];
-        cout << "Current IP: " << ip << ", Port: " << port << endl;
+        cout << "Current IP: " << ip << ",  Port: " << port << endl;
     }
-    cout << "-------------------------------------------" << endl;
+    cout << "--------------------PIR Result END---------------------\n";
     return 0;
 }
 
