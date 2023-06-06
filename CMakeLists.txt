@@ -20,10 +20,10 @@ src/sealpirlib/pir_client.cc include/pir_server.hpp src/sealpirlib/pir_server.cc
 target_include_directories(sealpirlib PRIVATE ./include)
 target_link_libraries(sealpirlib ${DEP})
 
-# for my own test
-add_executable(mytest src/mytest.cc)
-target_include_directories(mytest PRIVATE ./include)
-target_link_libraries(mytest sealpirlib ${DEP})
+# pir query test
+add_executable(pirquerytest src/pirquerytest.cc)
+target_include_directories(pirquerytest PRIVATE ./include)
+target_link_libraries(pirquerytest sealpirlib ${DEP})
 
 # serverplatform
 add_executable(serverplatform src/serverplatform.cc)
@@ -40,17 +40,8 @@ add_executable(merchant src/merchant.cc)
 target_include_directories(merchant PRIVATE ./include)
 target_link_libraries(merchant PRIVATE ${DEP})
 
-# non-interactive-demo
+# TODO: non-interactive-demo
 add_executable(non-interactive-demo src/demo.cc)
 target_include_directories(non-interactive-demo PRIVATE ./include)
 target_link_libraries(non-interactive-demo PRIVATE ${DEP})
 
-# test client
-add_executable(testclient src/test/test_client.cc)
-target_include_directories(testclient PRIVATE ./include)
-target_link_libraries(testclient PRIVATE ${DEP})
-
-# test server (not used)
-# add_executable(testserver src/test/test_server.cc)
-# target_include_directories(testserver PRIVATE ./include)
-# target_link_libraries(testserver PRIVATE ${DEP})
