@@ -4,3 +4,5 @@ build
 *test*.*
 *web*
 *Web*
+mapRecoSys.sh
+mapRecoSysForWeb.sh
