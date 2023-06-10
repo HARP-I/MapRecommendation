@@ -6,12 +6,13 @@ find_package(SEAL 4.1.1 REQUIRED)
 
 set(CMAKE_BUILD_TYPE Debug) # lib is release version
 set(CMAKE_CXX_STANDARD 17)
-
 set(CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
  " ${CMAKE_MODULE_PATH}")
 
 set(DEP SEAL::seal)
+set(CMAKE_EXE_LINKER_FLAGS "-static")
+set(SEAL_USE_STATIC_LIBS ON)
 
 # build sealpir lib
 add_library(sealpirlib include/pir.hpp src/sealpirlib/pir.cc include/pir_client.hpp
