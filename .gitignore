@@ -1,4 +1,6 @@
 info
 .vscode
 build
-test*.*
+*test*.*
+*web*
+*Web*

@@ -23,28 +23,29 @@
 using namespace std;
 using namespace seal;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
 	// command line args
 	cmdline::parser cmd_parser;
 	cmd_parser.add<string>("server_platform_host", 'l', "ip of platform", false, "127.0.0.1");
 	cmd_parser.add<uint16_t>("server_platform_port", 't', "port of platform", false, 51111,
-		cmdline::range(1, 65535));
+							 cmdline::range(1, 65535));
 	cmd_parser.add<size_t>("variety_selected", 'v', "variety of merchants", false, 1,
-		cmdline::range(0, 100));
+						   cmdline::range(0, 100));
 	// cmd_parser.add<string>("merchant_ip", 'm', "ip of merchant", false, "127.0.0.1");
 	// cmd_parser.add<uint16_t>("merchant_port", 'p', "port of merchant", false, 51022,
 	// 	cmdline::range(1, 65535));
 	cmd_parser.add<uint64_t>("xa", 'x', "coordinate1 of client", false, 123456789,
-		cmdline::range(0ul, 1ul << 27)); // 134217728
+							 cmdline::range(0ul, 1ul << 27)); // 134217728
 	cmd_parser.add<uint64_t>("ya", 'y', "coordinate2 of client", false, 132456888,
-		cmdline::range(0ul, 1ul << 27)); // 134217728
+							 cmdline::range(0ul, 1ul << 27)); // 134217728
 	cmd_parser.add<size_t>("plain_modulus_bits", 'b',
-		"bit length of plain modulus", false, 56, cmdline::range(1, 56));
+						   "bit length of plain modulus", false, 56, cmdline::range(1, 56));
 	cmd_parser.add<uint64_t>("radius", 'r', "radius/thershold", false, 128,
-		cmdline::range(1, 8192));
+							 cmdline::range(1, 8192));
 	cmd_parser.add<size_t>("poly_modulus_degree", 'd',
-		"set degree of polynomial(2^d)", false, 13,
-		cmdline::range(12, 15));
+						   "set degree of polynomial(2^d)", false, 13,
+						   cmdline::range(12, 15));
 	// cmd_parser.add("ipv4", '4', "ipv4");
 	cmd_parser.add("ipv6", '6', "ipv6", 0, 0);
 	cmd_parser.parse_check(argc, argv);
@@ -54,7 +55,7 @@ int main(int argc, char* argv[]) {
 	uint16_t server_platform_port = cmd_parser.get<uint16_t>("server_platform_port");
 	size_t variety_selected = cmd_parser.get<size_t>("variety_selected");
 
-	// merchant 
+	// merchant
 	// string merchant_ip = cmd_parser.get<string>("merchant_ip");
 	// uint16_t merchant_port = cmd_parser.get<uint16_t>("merchant_port");
 
@@ -81,7 +82,7 @@ int main(int argc, char* argv[]) {
 	gen_encryption_params(N, logt, enc_params);
 	verify_encryption_params(enc_params);
 	gen_pir_params(number_of_items, size_per_item, d, enc_params, pir_params,
-		use_symmetric, use_batching, use_recursive_mod_switching);
+				   use_symmetric, use_batching, use_recursive_mod_switching);
 
 	// connect to server platform
 	cout << "Connect to server platform..." << endl;
@@ -96,32 +97,32 @@ int main(int argc, char* argv[]) {
 	enc_params.save(enc_params_stream);
 	galois_keys.save(galois_keys_stream);
 	auto bytes_num = send_by_stream(sockfd_platform, enc_params_stream);
-	pplp_printf("Send enc params to the platform, bytes: %zd \n", ssize_t(bytes_num));
+	pppt_printf("Send enc params to the platform, bytes: %zd \n", ssize_t(bytes_num));
 	bytes_num = send_by_stream(sockfd_platform, galois_keys_stream);
-	pplp_printf("Send galoise keys to the platform, bytes: %zd \n", ssize_t(bytes_num));
+	pppt_printf("Send galoise keys to the platform, bytes: %zd \n", ssize_t(bytes_num));
 
 	// send query to platform server
 	// index of FV plaintext -> according to index and plaintext element
 	uint64_t index = client.get_fv_index(variety_selected);
-	// offset in FV plaintext -> the coeff of the final plaintext we get    
+	// offset in FV plaintext -> the coeff of the final plaintext we get
 	uint64_t offset = client.get_fv_offset(variety_selected);
-	// two dim database -> (Enc(x^i),Enc(x^i))  
+	// two dim database -> (Enc(x^i),Enc(x^i))
 	PirQuery query = client.generate_query(index);
 	// stream to be sent
 	stringstream query_stream;
 	// index -> query_stream
 	int query_size = client.generate_serialized_query(index, query_stream);
 	bytes_num = send_by_stream(sockfd_platform, query_stream);
-	pplp_printf("Send query to the platform, bytes: %zd \n", ssize_t(bytes_num));
+	pppt_printf("Send query to the platform, bytes: %zd \n", ssize_t(bytes_num));
 
 	// receive reply from server platform
 	stringstream reply_stream, reply_size_stream;
 	size_t reply_size;
 	auto sbytes_num = recv_by_stream(sockfd_platform, reply_stream);
-	pplp_printf("Recv reply from the platform, bytes: %zd \n", ssize_t(sbytes_num));
+	pppt_printf("Recv reply from the platform, bytes: %zd \n", ssize_t(sbytes_num));
 
 	sbytes_num = recv_by_stream(sockfd_platform, reply_size_stream);
-	pplp_printf("Recv reply size from the platform, bytes: %zd \n", ssize_t(sbytes_num));
+	pppt_printf("Recv reply size from the platform, bytes: %zd \n", ssize_t(sbytes_num));
 	reply_size_stream >> reply_size;
 	PirReply reply = client.deserialize_reply(reply_size, reply_stream);
 
@@ -133,10 +134,12 @@ int main(int argc, char* argv[]) {
 	vector<uint16_t> port_vec;
 	cout << "--------------------------------------------------------" << endl;
 	cout << "These merchants we have to communicate with(pir result): " << endl;
-	for (uint64_t i = 0;i < elems.size();i += 6) {
+	for (uint64_t i = 0; i < elems.size(); i += 6)
+	{
 		uint32_t ip = 0;
 		uint64_t ipPos = i;
-		for (uint64_t j = 0;j < 4;j++) {
+		for (uint64_t j = 0; j < 4; j++)
+		{
 			ip = (ip << 8) | elems[ipPos];
 			++ipPos;
 		}
@@ -153,12 +156,16 @@ int main(int argc, char* argv[]) {
 	close(sockfd_platform);
 
 	vector<uint64_t> result_index;
+	vector<string> result_name;
+	vector<double> result_longitude;
+	vector<double> result_latitude;
 	cout << "Starting communication..." << endl;
 	// connect to each merchant
-	for (uint64_t i = 0; i < ip_vec.size();i++) {
+	for (uint64_t i = 0; i < ip_vec.size(); i++)
+	{
 		cout << "--------------------------------------------------------" << endl;
 		// for ipv4 currently
-		in_addr tmp{ ip_vec[i] };
+		in_addr tmp{ip_vec[i]};
 		string merchant_ip = inet_ntoa(tmp);
 		uint16_t merchant_port = port_vec[i];
 
@@ -167,9 +174,9 @@ int main(int argc, char* argv[]) {
 		if (sockfd_server < 0) // fail
 			return 1;
 
-		pplp_printf("Connected to the merchant %" PRIu64 ", proximity test start...\n", i);
-		pplp_printf("Client's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xa, ya);
-		pplp_printf("Radius:\t\t\t\t%" PRIu64 "\n", radius);
+		pppt_printf("Connected to the merchant %" PRIu64 ", proximity test start...\n", i);
+		pppt_printf("Client's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xa, ya);
+		pppt_printf("Radius:\t\t\t\t%" PRIu64 "\n", radius);
 
 		auto begin = chrono::high_resolution_clock::now();
 
@@ -177,7 +184,7 @@ int main(int argc, char* argv[]) {
 		stringstream radius_stream;
 		radius_stream << radius << "\0";
 		bytes_num = send_by_stream(sockfd_server, radius_stream);
-		pplp_printf("Send radius to the merchant, bytes: %zd \n", ssize_t(bytes_num));
+		pppt_printf("Send radius to the merchant, bytes: %zd \n", ssize_t(bytes_num));
 
 		// set the parms
 		EncryptionParameters parms(scheme_type::bfv);
@@ -193,12 +200,12 @@ int main(int argc, char* argv[]) {
 		stringstream stream_parms;
 		parms.save(stream_parms);
 		auto bytes = send(sockfd_server, stream_parms.str().c_str(),
-			stream_parms.str().length(), 0);
-		pplp_printf("Send parms(context), bytes: %zu \n", size_t(bytes));
+						  stream_parms.str().length(), 0);
+		pppt_printf("Send parms(context), bytes: %zu \n", size_t(bytes));
 
 		if (flag_log)
 			print_parameters(context);
-		pplp_printf("Parameter validation: %s\n", context.parameter_error_message());
+		pppt_printf("Parameter validation: %s\n", context.parameter_error_message());
 
 		// generate sk and pk
 		KeyGenerator keygen(context);
@@ -215,27 +222,29 @@ int main(int argc, char* argv[]) {
 
 		// send the ciphertext
 		vector<Ciphertext> lst_cipher{c1, c2, c3};
-		for (size_t id_cipher = 0; id_cipher < 3; id_cipher++) {
+		for (size_t id_cipher = 0; id_cipher < 3; id_cipher++)
+		{
 			stringstream stream_cipher;
 			lst_cipher[id_cipher].save(stream_cipher);
 			bytes = send_by_stream(sockfd_server, stream_cipher);
-			pplp_printf("Send the ciphertext %zu, bytes: %zu\n", id_cipher,
-				size_t(bytes));
+			pppt_printf("Send the ciphertext %zu, bytes: %zu\n", id_cipher,
+						size_t(bytes));
 		}
 
 		// receive the bloom filter (w || BF)
 		bytes = bytes_to_receive(sockfd_server);
 		//
-		uint8_t* bf_buf = (uint8_t*)malloc(bytes);
+		uint8_t *bf_buf = (uint8_t *)malloc(bytes);
 		ssize_t remain_bytes = bytes;
-		for (uint8_t* ptr = bf_buf; remain_bytes != 0;) {
+		for (uint8_t *ptr = bf_buf; remain_bytes != 0;)
+		{
 			ssize_t cur_bytes = recv(sockfd_server, ptr, remain_bytes, 0);
 			ptr += cur_bytes;
 			remain_bytes -= cur_bytes;
 		}
-		uint64_t w = *(uint64_t*)bf_buf;
+		uint64_t w = *(uint64_t *)bf_buf;
 		bloom_filter bf(bf_buf + sizeof(uint64_t));
-		pplp_printf("Recv the BF and hash key, bytes: %zu\n", size_t(bytes));
+		pppt_printf("Recv the BF and hash key, bytes: %zu\n", size_t(bytes));
 		//
 		free(bf_buf);
 
@@ -244,7 +253,7 @@ int main(int argc, char* argv[]) {
 		bytes = recv_by_stream(sockfd_server, stream_cipher);
 		Ciphertext cipher_blind_distance;
 		cipher_blind_distance.load(context, stream_cipher);
-		pplp_printf("Recv the encrypted blind distance, bytes: %zu\n", size_t(bytes));
+		pppt_printf("Recv the encrypted blind distance, bytes: %zu\n", size_t(bytes));
 
 		// decrypt the result to get the blind distance
 		Decryptor decryptor(context, sk);
@@ -254,23 +263,52 @@ int main(int argc, char* argv[]) {
 		uint64_t blind_distance =
 			hex_string_to_uint(plain_blind_distance.to_string());
 
-		pplp_printf("blind_distance: %" PRIu64 "\n", blind_distance);
+		pppt_printf("blind_distance: %" PRIu64 "\n", blind_distance);
 
 		bool isNear = bf.contains((blind_distance << get_bitlen(w)) | w);
 		auto end = chrono::high_resolution_clock::now();
 		auto elapsed = chrono::duration_cast<chrono::nanoseconds>(end - begin);
 
-		close(sockfd_server);
 		if (isNear)
 			result_index.push_back(i);
 		cout << "Result of proximity test: " << (isNear ? "near" : "far") << endl;
 		printf("Time measured: %.3f seconds\n", elapsed.count() * 1e-9);
+
+		// receive name
+		string name;
+		stringstream merchant_info;
+		bytes = recv_by_stream(sockfd_server, merchant_info);
+		merchant_info >> name;
+
+		// receive longitude
+		double longitude;
+		stringstream merchant_longitude;
+		bytes = recv_by_stream(sockfd_server, merchant_longitude);
+		merchant_longitude >> longitude;
+
+		// receive latitude
+		double latitude;
+		stringstream merchant_latitude;
+		bytes = recv_by_stream(sockfd_server, merchant_latitude);
+		merchant_latitude >> latitude;
+
+		// cout << name << " " << longitude << " " << latitude << endl;
+		if (isNear)
+		{
+			result_name.push_back(name);
+			result_longitude.push_back(longitude);
+			result_latitude.push_back(latitude);
+		}
+
 		cout << "--------------------------------------------------------" << endl;
+
+		close(sockfd_server);
 	}
 	cout << "类别：" << Variety[variety_selected] << "，半径：" << radius << "米" << endl;
 	cout << "以下商家在您附近：" << endl;
-	for (int i = 0;i < result_index.size();i++) {
-		cout << Merchants[variety_selected][result_index[i]] << " ";
+	for (int i = 0; i < result_index.size(); i++)
+	{
+		cout << result_name[i] << " " << result_longitude[i] << " " << result_latitude[i] << endl;
 		if (i % 3 == 0 && i != 0)
 			cout << endl;
 	}

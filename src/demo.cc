@@ -57,9 +57,9 @@ int main(int argc, char *argv[]) {
   uint64_t radius = cmd_parser.get<uint64_t>("radius");
   uint64_t sq_radius = radius * radius;
   int print_bf = cmd_parser.get<int>("print_bf");
-  pplp_printf("Client's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xa, ya);
-  pplp_printf("Server's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xb, yb);
-  pplp_printf("Radius(Threshold):\t\t\t%" PRIu64 "\n", radius);
+  pppt_printf("Client's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xa, ya);
+  pppt_printf("Server's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xb, yb);
+  pppt_printf("Radius(Threshold):\t\t\t%" PRIu64 "\n", radius);
 
   auto begin = std::chrono::high_resolution_clock::now();
   // A  KeyGen

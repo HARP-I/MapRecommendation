@@ -11,8 +11,7 @@ set(CMAKE_MODULE_PATH
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
  " ${CMAKE_MODULE_PATH}")
 
-set(DEP
-  SEAL::seal)
+set(DEP SEAL::seal)
 
 # build sealpir lib
 add_library(sealpirlib include/pir.hpp src/sealpirlib/pir.cc include/pir_client.hpp
@@ -40,7 +39,7 @@ add_executable(merchant src/merchant.cc)
 target_include_directories(merchant PRIVATE ./include)
 target_link_libraries(merchant PRIVATE ${DEP})
 
-# TODO: non-interactive-demo
+# non-interactive-demo
 add_executable(non-interactive-demo src/demo.cc)
 target_include_directories(non-interactive-demo PRIVATE ./include)
 target_link_libraries(non-interactive-demo PRIVATE ${DEP})

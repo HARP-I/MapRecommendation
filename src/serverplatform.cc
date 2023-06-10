@@ -43,15 +43,15 @@ int main(int argc, char** argv) {
 	stringstream enc_params_stream;
 	auto bytes_num = recv_by_stream(sockfd_client, enc_params_stream);
 	enc_params.load(enc_params_stream);
-	pplp_printf("Recv the enc parms, bytes: %zd \n", ssize_t(bytes_num)); 
+	pppt_printf("Recv the enc parms, bytes: %zd \n", ssize_t(bytes_num)); 
 
 	stringstream galois_keys_stream; 
 	bytes_num = recv_by_stream(sockfd_client, galois_keys_stream);
-	pplp_printf("Recv the galois keys stream, bytes: %zd \n", ssize_t(bytes_num)); 
+	pppt_printf("Recv the galois keys stream, bytes: %zd \n", ssize_t(bytes_num)); 
 
 	stringstream query_stream; 
 	bytes_num = recv_by_stream(sockfd_client, query_stream);
-	pplp_printf("Recv the query stream, bytes: %zd \n", ssize_t(bytes_num)); 
+	pppt_printf("Recv the query stream, bytes: %zd \n", ssize_t(bytes_num)); 
 	
 	verify_encryption_params(enc_params);
 
@@ -90,11 +90,11 @@ int main(int argc, char** argv) {
 	PirReply reply = server.generate_reply(client_query, 0); // reply to client 0
 	int reply_size = server.serialize_reply(reply, reply_stream); // server reply to stream
 	auto sbytes_num = send_by_stream(sockfd_client, reply_stream);
-	pplp_printf("Send reply to the client, bytes: %zd \n", ssize_t(sbytes_num));
+	pppt_printf("Send reply to the client, bytes: %zd \n", ssize_t(sbytes_num));
 	
 	reply_size_stream << reply.size() << "\0";
 	sbytes_num = send_by_stream(sockfd_client, reply_size_stream);
-	pplp_printf("Send reply size to the client, bytes: %zd \n", ssize_t(sbytes_num));
+	pppt_printf("Send reply size to the client, bytes: %zd \n", ssize_t(sbytes_num));
 
 	close(sockfd_client);
 	cout << "finished." << endl;

@@ -21,7 +21,8 @@
 using namespace std;
 using namespace seal;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
   cmdline::parser cmd_parser;
   cmd_parser.add<string>("host", 'h', "ip of server", false, "127.0.0.1");
@@ -31,6 +32,9 @@ int main(int argc, char *argv[]) {
                            cmdline::range(0ul, 1ul << 27)); // 134217728
   cmd_parser.add<uint64_t>("yb", 'y', "coordinate2 of server", false, 132465777,
                            cmdline::range(0ul, 1ul << 27)); // 134217728
+  cmd_parser.add<string>("name", 'n', "name of merchant", false, "default_name");
+  cmd_parser.add<double>("longitude", 'l', "longitude of merchant", false, 0.0);
+  cmd_parser.add<double>("latitude", 't', "latitude of merchant", false, 0.0);
 
   // cmd_parser.add("ipv4", '4', "ipv4");
   cmd_parser.add("ipv6", '6', "ipv6", 0, 0);
@@ -48,15 +52,19 @@ int main(int argc, char *argv[]) {
   uint64_t xb = cmd_parser.get<uint64_t>("xb");
   uint64_t yb = cmd_parser.get<uint64_t>("yb");
 
+  string name = cmd_parser.get<string>("name");
+  double longitude = cmd_parser.get<double>("longitude");
+  double latitude = cmd_parser.get<double>("latitude");
+
   uint64_t z = xb * xb + yb * yb;
-  
+
   int sockfd_client = connect_to_client(ip, port, domain);
   if (sockfd_client < 0) // fail
     return -1;
 
-  pplp_printf("Proximity test start...\n");
-  pplp_printf("Server's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xb, yb);
-  
+  pppt_printf("Proximity test start...\n");
+  pppt_printf("Server's coordinates:\t(%" PRIu64 ", %" PRIu64 ")\n", xb, yb);
+
   auto begin = chrono::high_resolution_clock::now();
 
   // receive radius
@@ -64,13 +72,13 @@ int main(int argc, char *argv[]) {
   auto bytes = recv_by_stream(sockfd_client, radius_stream);
   uint64_t radius;
   radius_stream >> radius;
-  pplp_printf("Recv the radius %zu, bytes: %zu\n", 0, size_t(bytes));
-  
+  pppt_printf("Recv the radius %zu, bytes: %zu\n", 0, size_t(bytes));
+
   uint64_t sq_radius = radius * radius;
 
   // Recv the parms
   bytes = recv(sockfd_client, buf, sizeof(buf), 0);
-  pplp_printf("Recv the parms(context), bytes: %zu \n", size_t(bytes));
+  pppt_printf("Recv the parms(context), bytes: %zu \n", size_t(bytes));
 
   // set the context
   EncryptionParameters parms;
@@ -80,7 +88,7 @@ int main(int argc, char *argv[]) {
   SEALContext context(parms);
   if (flag_log)
     print_parameters(context);
-  pplp_printf("Parameter validation: %s\n", context.parameter_error_message());
+  pppt_printf("Parameter validation: %s\n", context.parameter_error_message());
 
   // set the bloom filter
   bloom_parameters bf_parms;
@@ -95,7 +103,8 @@ int main(int argc, char *argv[]) {
   random_bytes((byte *)&s, 4);
   random_bytes((byte *)&w, 2);
   int w_len = get_bitlen(w);
-  for (uint64_t di = 0; di < sq_radius; ++di) {
+  for (uint64_t di = 0; di < sq_radius; ++di)
+  {
     uint64_t bd = s * (di + r); // overflow ??
     bf.insert((bd << uint64_t(w_len)) | w);
   }
@@ -108,19 +117,19 @@ int main(int argc, char *argv[]) {
   cout << "before load0" << endl;
   c0.load(context, stream_cipher0);
   cout << "after load0" << endl;
-  pplp_printf("Recv the ciphertext %zu, bytes: %zu\n", 0, size_t(bytes));
+  pppt_printf("Recv the ciphertext %zu, bytes: %zu\n", 0, size_t(bytes));
 
   bytes = recv_by_stream(sockfd_client, stream_cipher1);
   cout << "before load1" << endl;
   c1.load(context, stream_cipher1);
   cout << "after load1" << endl;
-  pplp_printf("Recv the ciphertext %zu, bytes: %zu\n", 1, size_t(bytes));
+  pppt_printf("Recv the ciphertext %zu, bytes: %zu\n", 1, size_t(bytes));
 
   bytes = recv_by_stream(sockfd_client, stream_cipher2);
   cout << "before load2" << endl;
   c2.load(context, stream_cipher2);
   cout << "after load2" << endl;
-  pplp_printf("Recv the ciphertext %zu, bytes: %zu\n", 2, size_t(bytes));
+  pppt_printf("Recv the ciphertext %zu, bytes: %zu\n", 2, size_t(bytes));
 
   //  homomorphic evaluation
   Evaluator evaluator(context);
@@ -141,7 +150,7 @@ int main(int argc, char *argv[]) {
   *(uint64_t *)bf_buf = w;
   bf.serialize(bf_buf + sizeof(uint64_t));
   bytes = send(sockfd_client, bf_buf, bytes, 0);
-  pplp_printf("Send the BF and hash key, bytes: %zu\n", size_t(bytes));
+  pppt_printf("Send the BF and hash key, bytes: %zu\n", size_t(bytes));
   free(bf_buf);
 
   // send the encrypted blind distance
@@ -150,12 +159,39 @@ int main(int argc, char *argv[]) {
   bytes_to_send(sockfd_client, stream_cipher.str().length());
   bytes = send(sockfd_client, stream_cipher.str().c_str(),
                stream_cipher.str().length(), 0);
-  pplp_printf("Send the encrypted blind distance, bytes: %zu\n", size_t(bytes));
+  pppt_printf("Send the encrypted blind distance, bytes: %zu\n", size_t(bytes));
 
   auto end = chrono::high_resolution_clock::now();
   auto elapsed = chrono::duration_cast<chrono::nanoseconds>(end - begin);
 
+
   printf("Time measured: %.3f seconds.\n", elapsed.count() * 1e-9);
+
+  // send name to clinet
+  stringstream stream_info;
+  stream_info << name;
+  bytes_to_send(sockfd_client, stream_info.str().length());
+  bytes = send(sockfd_client, stream_info.str().c_str(),
+               stream_info.str().length(), 0);
+  pppt_printf("Send the name, bytes: %zu\n", size_t(bytes));
+
+  // send longitude to clinet
+  stringstream stream_longitude;
+  stream_longitude << longitude;
+  bytes_to_send(sockfd_client, stream_longitude.str().length());
+  bytes = send(sockfd_client, stream_longitude.str().c_str(),
+               stream_longitude.str().length(), 0);
+  pppt_printf("Send the longitude, bytes: %zu\n", size_t(bytes));
+
+  // send latitude to clinet
+  stringstream stream_latitude;
+  stream_latitude << latitude;
+  bytes_to_send(sockfd_client, stream_latitude.str().length());
+  bytes = send(sockfd_client, stream_latitude.str().c_str(),
+               stream_latitude.str().length(), 0);
+  pppt_printf("Send the latitude, bytes: %zu\n", size_t(bytes));
+  
+
   close(sockfd_client);
   return 0;
 }
