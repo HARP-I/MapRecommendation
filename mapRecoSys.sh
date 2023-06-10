@@ -30,42 +30,42 @@ y5_cor=(3413 3383 3543 3310 3429 3422)
 x6_cor=(41641 41205 41422 41589 41273 41468 41737)
 y6_cor=(3330 3401 3513 3511 3512 3461 3421)
 
-name1_lst=("中国邮政储蓄银行" "中国农业银行" "中国银行" "潍坊银行" "中国人民银行" "交通银行" "中国进出口银行" "中国建设银行")
+name0_lst=("中国邮政储蓄银行" "中国农业银行" "中国银行" "潍坊银行" "中国人民银行" "交通银行" "中国进出口银行" "中国建设银行")
 
-name2_lst=("万众源排骨米饭" "洪晟泰炉包店" "信隆大包" "蓝白小厨" "海天馄饨" "小四季火锅" "PLANB咖啡" "山海楼" "1988 全日餐厅" "胡记食之屋" "杨铭宇黄焖鸡" "晟胜茶社" "闲庭咖啡" "东北私家菜" "景福宫韩国料理")
+name1_lst=("万众源排骨米饭" "洪晟泰炉包店" "信隆大包" "蓝白小厨" "海天馄饨" "小四季火锅" "PLANB咖啡" "山海楼" "1988 全日餐厅" "胡记食之屋" "杨铭宇黄焖鸡" "晟胜茶社" "闲庭咖啡" "东北私家菜" "景福宫韩国料理")
 
-name3_lst=("青岛嘉琦旅馆" "青岛盈鑫旅馆" "圆梦圆旅馆" "青岛丽天大酒店" "汉庭酒店" "青岛东海路9号公寓" "桔子水晶酒店" "国利旅馆" "青岛海悦来旅馆" "爱尊客酒店" "景福宫商务宾馆" "青岛静雅旅馆")
+name2_lst=("青岛嘉琦旅馆" "青岛盈鑫旅馆" "圆梦圆旅馆" "青岛丽天大酒店" "汉庭酒店" "青岛东海路9号公寓" "桔子水晶酒店" "国利旅馆" "青岛海悦来旅馆" "爱尊客酒店" "景福宫商务宾馆" "青岛静雅旅馆")
 
-name4_lst=("综合门诊" "国风大药店" "湛海医院" "海军971医院")
+name3_lst=("综合门诊" "国风大药店" "湛海医院" "海军971医院")
 
-name5_lst=("青岛五十九中学" "海信学校" "市南区实验小学" "老年大学")
+name4_lst=("青岛五十九中学" "海信学校" "市南区实验小学" "老年大学")
 
-name6_lst=("湛山市场" "有客便利" "衣品人生" "猫港便利点" "滨海百货" "海鳌海产")
+name5_lst=("湛山市场" "有客便利" "衣品人生" "猫港便利点" "滨海百货" "海鳌海产")
 
-name7_lst=("中国联通" "中国体育彩票" "电影公社" "景和图文" "中国移动" "通信局" "菜鸟驿站")
+name6_lst=("中国联通" "中国体育彩票" "电影公社" "景和图文" "中国移动" "通信局" "菜鸟驿站")
 
-longitude1_lst=(120.370793 120.370225 120.378205 120.371494 120.370834 120.368237 120.372642 120.381772)
-longitude2_lst=(120.372627 120.369510 120.372096 120.372031 120.369591 120.368872 120.369435 120.365954 120.369296 120.377804 120.369516 120.369210 120.367096 120.365626 120.368228)
-longitude3_lst=(120.371263 120.371520 120.372121 120.373280 120.376541 120.376187 120.378966 120.368468 120.369171 120.367883 120.367154 120.372552)
-longitude4_lst=(120.370909 120.371901 120.366091 120.378862)
-longitude5_lst=(120.372161 120.371684 120.369464 120.367913)
-longitude6_lst=(120.372593 120.371756 120.370158 120.380050 120.382141 120.382527)
-longitude7_lst=(120.374502 120.370580 120.372538 120.374035 120.371197 120.372952 120.375366)
+longitude0_lst=(120.370793 120.370225 120.378205 120.371494 120.370834 120.368237 120.372642 120.381772)
+longitude1_lst=(120.372627 120.369510 120.372096 120.372031 120.369591 120.368872 120.369435 120.365954 120.369296 120.377804 120.369516 120.369210 120.367096 120.365626 120.368228)
+longitude2_lst=(120.371263 120.371520 120.372121 120.373280 120.376541 120.376187 120.378966 120.368468 120.369171 120.367883 120.367154 120.372552)
+longitude3_lst=(120.370909 120.371901 120.366091 120.378862)
+longitude4_lst=(120.372161 120.371684 120.369464 120.367913)
+longitude5_lst=(120.372593 120.371756 120.370158 120.380050 120.382141 120.382527)
+longitude6_lst=(120.374502 120.370580 120.372538 120.374035 120.371197 120.372952 120.375366)
 
-latitude1_lst=(36.063021 36.058975 36.060047 36.056296 36.066994 36.058759 36.056877 36.061348)
-latitude2_lst=(36.060994 36.062148 36.061779 36.062126 36.058726 36.058939 36.059611 36.058822 36.056107 36.061705 36.065396 36.066293 36.066831 36.075252 36.057625)
-latitude3_lst=(36.060941 36.060412 36.060741 36.060997 36.060880 36.059770 36.061231 36.059245 36.059180 36.059046 36.058621 36.061264)
-latitude4_lst=(36.063405 36.061154 36.057511 36.071431)
-latitude5_lst=(36.065419 36.070017 36.063053 36.066735)
-latitude6_lst=(36.060720 36.060177 36.063022 36.058863 36.060982 36.060848)
-latitude7_lst=(36.059230 36.060496 36.062487 36.062448 36.062478 36.061559 36.060846)
+latitude0_lst=(36.063021 36.058975 36.060047 36.056296 36.066994 36.058759 36.056877 36.061348)
+latitude1_lst=(36.060994 36.062148 36.061779 36.062126 36.058726 36.058939 36.059611 36.058822 36.056107 36.061705 36.065396 36.066293 36.066831 36.075252 36.057625)
+latitude2_lst=(36.060941 36.060412 36.060741 36.060997 36.060880 36.059770 36.061231 36.059245 36.059180 36.059046 36.058621 36.061264)
+latitude3_lst=(36.063405 36.061154 36.057511 36.071431)
+latitude4_lst=(36.065419 36.070017 36.063053 36.066735)
+latitude5_lst=(36.060720 36.060177 36.063022 36.058863 36.060982 36.060848)
+latitude6_lst=(36.059230 36.060496 36.062487 36.062448 36.062478 36.061559 36.060846)
 
 # echo "${port_lst[$port_index]}  ${x0_cor[$i]}  ${y0_cor[$i]}"
 variety_cnt=0
 port_index=$(($variety_cnt * 15))
 for ((i = 0; i < ${#x0_cor[*]}; i++)); do
     ./build/merchant -p ${port_lst[$port_index]} -x ${x0_cor[$i]} -y ${y0_cor[$i]} \
-    -n "${name1_lst[$i]}" -l  "${longitude1_lst[$i]}" -t "${latitude1_lst[$i]}" >/dev/null 2>&1 &
+    -n "${name0_lst[$i]}" -l  "${longitude0_lst[$i]}" -t "${latitude0_lst[$i]}" >/dev/null 2>&1 &
     port_index=$(($port_index + 1))
 done
 variety_cnt=$(($variety_cnt + 1))
@@ -73,7 +73,7 @@ variety_cnt=$(($variety_cnt + 1))
 port_index=$(($variety_cnt * 15))
 for ((i = 0; i < ${#x1_cor[*]}; i++)); do
     ./build/merchant -p ${port_lst[$port_index]} -x ${x1_cor[$i]} -y ${y1_cor[$i]} \
-    -n ${name2_lst[$i]} -l  "${longitude2_lst[$i]}" -t "${latitude2_lst[$i]}"  >/dev/null 2>&1 &
+    -n ${name1_lst[$i]} -l  "${longitude1_lst[$i]}" -t "${latitude1_lst[$i]}"  >/dev/null 2>&1 &
     port_index=$(($port_index + 1))
 done
 variety_cnt=$(($variety_cnt + 1))
@@ -81,7 +81,7 @@ variety_cnt=$(($variety_cnt + 1))
 port_index=$(($variety_cnt * 15))
 for ((i = 0; i < ${#x2_cor[*]}; i++)); do
     ./build/merchant -p ${port_lst[$port_index]} -x ${x2_cor[$i]} -y ${y2_cor[$i]} \
-    -n ${name3_lst[$i]} -l  "${longitude3_lst[$i]}" -t "${latitude3_lst[$i]}"  >/dev/null 2>&1 &
+    -n ${name2_lst[$i]} -l  "${longitude2_lst[$i]}" -t "${latitude2_lst[$i]}"  >/dev/null 2>&1 &
     port_index=$(($port_index + 1))
 done
 variety_cnt=$(($variety_cnt + 1))
@@ -89,7 +89,7 @@ variety_cnt=$(($variety_cnt + 1))
 port_index=$(($variety_cnt * 15))
 for ((i = 0; i < ${#x3_cor[*]}; i++)); do
     ./build/merchant -p ${port_lst[$port_index]} -x ${x3_cor[$i]} -y ${y3_cor[$i]} \
-    -n ${name4_lst[$i]} -l  "${longitude4_lst[$i]}" -t "${latitude4_lst[$i]}"  >/dev/null 2>&1 &
+    -n ${name3_lst[$i]} -l  "${longitude3_lst[$i]}" -t "${latitude3_lst[$i]}"  >/dev/null 2>&1 &
     port_index=$(($port_index + 1))
 done
 variety_cnt=$(($variety_cnt + 1))
@@ -97,7 +97,7 @@ variety_cnt=$(($variety_cnt + 1))
 port_index=$(($variety_cnt * 15))
 for ((i = 0; i < ${#x4_cor[*]}; i++)); do
     ./build/merchant -p ${port_lst[$port_index]} -x ${x4_cor[$i]} -y ${y4_cor[$i]} \
-    -n ${name5_lst[$i]} -l  "${longitude5_lst[$i]}" -t "${latitude5_lst[$i]}"  >/dev/null 2>&1 &
+    -n ${name4_lst[$i]} -l  "${longitude4_lst[$i]}" -t "${latitude4_lst[$i]}"  >/dev/null 2>&1 &
     port_index=$(($port_index + 1))
 done
 variety_cnt=$(($variety_cnt + 1))
@@ -105,7 +105,7 @@ variety_cnt=$(($variety_cnt + 1))
 port_index=$(($variety_cnt * 15))
 for ((i = 0; i < ${#x5_cor[*]}; i++)); do
     ./build/merchant -p ${port_lst[$port_index]} -x ${x5_cor[$i]} -y ${y5_cor[$i]} \
-    -n ${name6_lst[$i]} -l  "${longitude6_lst[$i]}" -t "${latitude6_lst[$i]}"  >/dev/null 2>&1 &
+    -n ${name5_lst[$i]} -l  "${longitude5_lst[$i]}" -t "${latitude5_lst[$i]}"  >/dev/null 2>&1 &
     port_index=$(($port_index + 1))
 done
 variety_cnt=$(($variety_cnt + 1))
@@ -113,7 +113,7 @@ variety_cnt=$(($variety_cnt + 1))
 port_index=$(($variety_cnt * 15))
 for ((i = 0; i < ${#x6_cor[*]}; i++)); do
     ./build/merchant -p ${port_lst[$port_index]} -x ${x6_cor[$i]} -y ${y6_cor[$i]} \
-    -n ${name7_lst[$i]} -l  "${longitude7_lst[$i]}" -t "${latitude7_lst[$i]}"  >/dev/null 2>&1 &
+    -n ${name6_lst[$i]} -l  "${longitude6_lst[$i]}" -t "${latitude6_lst[$i]}"  >/dev/null 2>&1 &
     port_index=$(($port_index + 1))
 done
 
